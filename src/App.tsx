@@ -1,12 +1,21 @@
 import React, { useState } from "react"
 import logo from "./logo.svg"
 import "./App.css"
-import LikeButton from "./components/LikeButton"
-import useMousePosition from "./hooks/useMousePosition"
+import useURLLoader from "./hooks/useURLLoader"
+//告诉编译器返回数据的类型
+interface IShowResult {
+  message: string
+  status: string
+}
 
-const App = () => {
+const App: React.FC = () => {
   const [show, setShow] = useState(true)
-  const positions = useMousePosition()
+  const [
+    data,
+    loading,
+  ] = useURLLoader("https://dog.ceo/api/breeds/image/random", [show])
+  const dogResult = data as IShowResult
+
   return (
     <div className="App">
       <header className="App-header">
@@ -18,15 +27,16 @@ const App = () => {
               setShow(!show)
             }}
           >
-            Toggle
+            Refresh dog photo
           </button>
         </p>
         {/* 条件渲染组件
         {show && <MouseTracker></MouseTracker>} */}
-        <p>
-          X:{positions.x} | Y:{positions.y}
-        </p>
-        <LikeButton />
+        {loading ? (
+          <p>读取中</p>
+        ) : (
+          <img src={dogResult && dogResult.message}></img>
+        )}
         <a
           className="App-link"
           href="https://reactjs.org"
