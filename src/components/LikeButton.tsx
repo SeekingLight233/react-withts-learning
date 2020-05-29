@@ -6,8 +6,10 @@ const LikeButton: React.FC = () => {
   const [on, setOn] = useState(true)
   useEffect(() => {
     //组件渲染完成之后，传进来的func会被执行
+    console.log("document title effect is running")
+
     document.title = `点击了${like}次`
-  })
+  }, [like, on]) //监听like的变化来添加effect
   return (
     <div>
       <button

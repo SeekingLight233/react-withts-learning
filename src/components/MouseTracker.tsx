@@ -3,17 +3,19 @@ import React, { useState, useEffect } from "react"
 const MouseTracker: React.FC = () => {
   const [positions, setPositions] = useState({ x: 0, y: 0 })
   useEffect(() => {
-    console.log("add effort", positions.x)
+    console.log("add effort")
     const updateMouse = (e: MouseEvent) => {
+      console.log("inner")
+
       setPositions({ x: e.clientX, y: e.clientY })
     }
     document.addEventListener("click", updateMouse)
     //返回值是一个函数，可以在内部设置销毁动作
     return () => {
-      console.log("remove effort", positions.x)
+      console.log("remove effort")
       document.removeEventListener("click", updateMouse)
     }
-  })
+  }, [])
 
   console.log("before render", positions.x)
 
