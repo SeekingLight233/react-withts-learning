@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react"
+import useMousePosition from "../hooks/useMousePosition"
 
 const LikeButton: React.FC = () => {
   //es6的解构赋值，不是ts专门的语法
   const [like, setLike] = useState(0) //The useState() returns a stateful value, and a function to update it.
   const [on, setOn] = useState(true)
+  const positions = useMousePosition()
+
   useEffect(() => {
     //组件渲染完成之后，传进来的func会被执行
     console.log("document title effect is running")
@@ -12,6 +15,9 @@ const LikeButton: React.FC = () => {
   }, [like, on]) //监听like的变化来添加effect
   return (
     <div>
+      <h2>
+        X:{positions.x} | Y:{positions.y}
+      </h2>
       <button
         onClick={() => {
           setLike(like + 1)

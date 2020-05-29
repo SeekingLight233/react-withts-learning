@@ -1,12 +1,12 @@
 import React, { useState } from "react"
 import logo from "./logo.svg"
 import "./App.css"
-import Hello from "./components/Hello"
 import LikeButton from "./components/LikeButton"
-import MouseTracker from "./components/MouseTracker"
+import useMousePosition from "./hooks/useMousePosition"
 
 const App = () => {
   const [show, setShow] = useState(true)
+  const positions = useMousePosition()
   return (
     <div className="App">
       <header className="App-header">
@@ -23,6 +23,9 @@ const App = () => {
         </p>
         {/* 条件渲染组件
         {show && <MouseTracker></MouseTracker>} */}
+        <p>
+          X:{positions.x} | Y:{positions.y}
+        </p>
         <LikeButton />
         <a
           className="App-link"
