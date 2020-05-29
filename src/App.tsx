@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import logo from "./logo.svg"
 import "./App.css"
 import useURLLoader from "./hooks/useURLLoader"
+import LikeButton from "./components/LikeButton"
 //告诉编译器返回数据的类型
 interface IShowResult {
   message: string
@@ -21,6 +22,7 @@ const App: React.FC = () => {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
+          <LikeButton></LikeButton>
           <button
             onClick={() => {
               //将组件销毁

@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import useMousePosition from "../hooks/useMousePosition"
 
 const LikeButton: React.FC = () => {
   //es6的解构赋值，不是ts专门的语法
   const [like, setLike] = useState(0) //The useState() returns a stateful value, and a function to update it.
+  //定义一个“及时响应的data”
+  const likeRef = useRef(0)
   const [on, setOn] = useState(true)
+  const didMountRef = useRef(false)
   const positions = useMousePosition()
+  const domRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     //组件渲染完成之后，传进来的func会被执行
@@ -13,25 +17,38 @@ const LikeButton: React.FC = () => {
 
     document.title = `点击了${like}次`
   }, [like, on]) //监听like的变化来添加effect
+
+  //利用useRef来实现组件注册生命周期
+  useEffect(() => {
+    if (didMountRef.current) {
+      console.log("this is updated")
+    } else {
+      didMountRef.current = true
+    }
+  })
+
+  useEffect(() => {
+    if (domRef && domRef.current) {
+      domRef.current.focus()
+    }
+  })
+  function handleAlertClick() {
+    setTimeout(() => {
+      alert(" u click on" + likeRef.current)
+    }, 3000)
+  }
   return (
     <div>
-      <h2>
-        X:{positions.x} | Y:{positions.y}
-      </h2>
+      <input type="text" ref={domRef}></input>
       <button
         onClick={() => {
           setLike(like + 1)
+          likeRef.current++ //这里的值可以动了，但是不会触发render
         }}
       >
         {like}点赞
       </button>
-      <button
-        onClick={() => {
-          setOn(!on)
-        }}
-      >
-        {on ? "ON" : "OFF"}
-      </button>
+      <button onClick={handleAlertClick}>Alert!</button>
     </div>
   )
 }
