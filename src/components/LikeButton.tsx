@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef, useContext } from "react"
 import useMousePosition from "../hooks/useMousePosition"
+import { ThemeContext } from "../App"
 
 const LikeButton: React.FC = () => {
   //es6的解构赋值，不是ts专门的语法
@@ -10,7 +11,11 @@ const LikeButton: React.FC = () => {
   const didMountRef = useRef(false)
   const positions = useMousePosition()
   const domRef = useRef<HTMLInputElement>(null)
-
+  const theme = useContext(ThemeContext)
+  const style = {
+    background: theme.background,
+    color: theme.color,
+  }
   useEffect(() => {
     //组件渲染完成之后，传进来的func会被执行
     console.log("document title effect is running")
@@ -41,6 +46,7 @@ const LikeButton: React.FC = () => {
     <div>
       <input type="text" ref={domRef}></input>
       <button
+        style={style}
         onClick={() => {
           setLike(like + 1)
           likeRef.current++ //这里的值可以动了，但是不会触发render
